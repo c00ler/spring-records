@@ -7,12 +7,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+import java.time.Clock;
+
 @SpringBootApplication
 public class Application {
 
     @Bean
     Faker faker() {
         return Faker.instance();
+    }
+
+    @Bean
+    Clock clock() {
+        return Clock.systemUTC();
     }
 
     @Bean

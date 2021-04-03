@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.Clock;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +18,8 @@ import java.util.stream.IntStream;
 record UserRepository(ConcurrentMap<UUID, User> users) {
 
     @Autowired
-    UserRepository(Faker faker) {
-        this(initialize(faker));
+    UserRepository(Faker faker, Clock clock) {
+        this(initialize(faker, clock));
     }
 
     Collection<User> getAll() {
@@ -29,9 +30,9 @@ record UserRepository(ConcurrentMap<UUID, User> users) {
         return Optional.ofNullable(users.get(userId));
     }
 
-    private static ConcurrentMap<UUID, User> initialize(Faker faker) {
+    private static ConcurrentMap<UUID, User> initialize(Faker faker, Clock clock) {
         return IntStream.range(0, 10)
-            .mapToObj(__ -> new User(UUID.randomUUID(), faker.name().firstName(), faker.name().lastName()))
+            .mapToObj(__ -> new User(UUID.randomUUID(), faker.name().firstName(), faker.name().lastName(), clock.millis()))
             .collect(Collectors.toConcurrentMap(User::id, Function.identity()));
     }
 }
