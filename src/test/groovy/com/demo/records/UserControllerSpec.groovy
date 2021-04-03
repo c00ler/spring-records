@@ -32,8 +32,7 @@ class UserControllerSpec extends Specification {
 
     def 'should find user by id'() {
         given:
-        def users = userRepository.getAll()
-        def user = new ArrayList<>(users).get(new Random().nextInt(users.size()))
+        def user = userRepository.getAll().shuffled().first()
         def request =
             RequestEntity.get("/users/{userId}", user.id()).accept(MediaType.APPLICATION_JSON).build()
 
