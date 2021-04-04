@@ -12,6 +12,8 @@ import spock.lang.Specification
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserControllerSpec extends Specification {
 
+    static final def USERS_LIST_TYPE = new ParameterizedTypeReference<List<UserDto>>() {}
+
     @Autowired
     TestRestTemplate restTemplate
 
@@ -23,7 +25,7 @@ class UserControllerSpec extends Specification {
         def request = RequestEntity.get("/users").accept(MediaType.APPLICATION_JSON).build()
 
         when:
-        def response = restTemplate.exchange(request, new ParameterizedTypeReference<List<UserDto>>() {})
+        def response = restTemplate.exchange(request, USERS_LIST_TYPE)
 
         then:
         response.getStatusCode() == HttpStatus.OK
