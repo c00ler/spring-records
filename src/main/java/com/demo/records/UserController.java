@@ -8,19 +8,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
-record UserController(UserRepository userRepository) {
+    record UserController(UserRepository userRepository) {
 
     @GetMapping
-    Collection<User> getAll() {
-        return userRepository.getAll();
+    Collection<UserDto> getAll() {
+        return userRepository.getAll()
+            .stream()
+            .map(User::toDto)
+            .collect(Collectors.toList());
     }
 
     @GetMapping("/{userId}")
-    ResponseEntity<User> findById(@PathVariable UUID userId) {
+    ResponseEntity<UserDto> findById(@PathVariable UUID userId) {
         return userRepository.findById(userId)
+            .map(User::toDto)
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }

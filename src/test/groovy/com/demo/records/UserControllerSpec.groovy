@@ -23,7 +23,7 @@ class UserControllerSpec extends Specification {
         def request = RequestEntity.get("/users").accept(MediaType.APPLICATION_JSON).build()
 
         when:
-        def response = restTemplate.exchange(request, new ParameterizedTypeReference<List<User>>() {})
+        def response = restTemplate.exchange(request, new ParameterizedTypeReference<List<UserDto>>() {})
 
         then:
         response.getStatusCode() == HttpStatus.OK
@@ -32,12 +32,12 @@ class UserControllerSpec extends Specification {
 
     def 'should find user by id'() {
         given:
-        def user = new ArrayList<>(userRepository.all).shuffled().first()
+        def user = new ArrayList<>(userRepository.all).shuffled().first().toDto()
         def request =
             RequestEntity.get("/users/{userId}", user.id()).accept(MediaType.APPLICATION_JSON).build()
 
         when:
-        def response = restTemplate.exchange(request, User.class)
+        def response = restTemplate.exchange(request, UserDto.class)
 
         then:
         response.getStatusCode() == HttpStatus.OK

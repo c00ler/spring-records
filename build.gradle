@@ -29,8 +29,12 @@ dependencyManagement {
 }
 
 dependencies {
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jetty'
+
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     implementation 'com.github.javafaker:javafaker:1.0.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
