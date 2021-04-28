@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
-    record UserController(UserRepository userRepository) {
+record UserController(UserRepository userRepository) {
 
     @GetMapping
     Collection<UserDto> getAll() {
